@@ -1,0 +1,710 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>New Assay</title>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap-4.4.1.css' %}" />
+</head>
+
+<style>
+  .absoluteCenter img {
+    float: left;
+    width: 125px;
+    height: 50px;
+    background: #555;
+  }
+
+  .absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0;
+    /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .column {
+    flex: 50%;
+  }
+
+  .title-right {
+    float: right;
+    font-size: 15px;
+  }
+
+  .absoluteCenter img {
+    float: left;
+    width: 125px;
+    height: 50px;
+    background: #555;
+  }
+
+  .absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0;
+    /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .column {
+    flex: 50%;
+  }
+
+  .space {
+    width: 4px;
+    height: auto;
+    display: inline-block;
+  }
+
+  .button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 350px;
+    height: 50px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+
+  .title-right {
+    float: right;
+    font-size: 15px;
+  }
+
+  .title-left {
+    display: inline;
+  }
+
+  .modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+  }
+
+  /* Modal Content */
+  .modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+  }
+
+  /* Add Animation */
+  @-webkit-keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  @keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  /* The Close Button */
+  .close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .modal-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .modal-body {
+    padding: 2px 16px;
+  }
+
+  .modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .title-right {
+    float: right;
+    font-size: 15px;
+  }
+
+  .absoluteCenter img {
+    float: left;
+    width: 125px;
+    height: 50px;
+    background: #555;
+  }
+
+  .absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0;
+    /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .column {
+    flex: 50%;
+  }
+
+  .form-switch {
+    display: inline-block;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .form-switch i {
+    position: relative;
+    display: inline-block;
+    margin-right: .5rem;
+    width: 46px;
+    height: 26px;
+    background-color: #e6e6e6;
+    border-radius: 23px;
+    vertical-align: text-bottom;
+    transition: all 0.3s linear;
+  }
+
+  .form-switch i::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 42px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 11px;
+    transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
+    transition: all 0.25s linear;
+  }
+
+  .form-switch i::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 11px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24);
+    transform: translate3d(2px, 2px, 0);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .form-switch:active i::after {
+    width: 28px;
+    transform: translate3d(2px, 2px, 0);
+  }
+
+  .form-switch:active input:checked+i::after {
+    transform: translate3d(16px, 2px, 0);
+  }
+
+  .form-switch input {
+    display: none;
+  }
+
+  .form-switch input:checked+i {
+    background-color: #4BD763;
+  }
+
+  .form-switch input:checked+i::before {
+    transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0);
+  }
+
+  .form-switch input:checked+i::after {
+    transform: translate3d(22px, 2px, 0);
+  }
+
+  .modal2 {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+  }
+
+  /* Modal Content */
+  .modal2-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop2;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop2;
+    animation-duration: 0.4s
+  }
+
+  /* Add Animation */
+  @-webkit-keyframes animatetop2 {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  @keyframes animatetop2 {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  /* The Close Button */
+  .close2 {
+    color: rgb(255, 255, 255);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close2:hover,
+  .close2:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+
+  .modal2-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .modal2-body {
+    padding: 2px 16px;
+  }
+
+  .modal2-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .rounded-corners {
+    border-radius: 5px;
+  }
+</style>
+<script>
+  function contlapseCheck() {
+    if (document.getElementById('yesCheck').checked) {
+      document.getElementById('ifyes').style.visibility = 'visible'
+      document.getElementById('ifno').style.visibility = 'hidden';
+    }
+    if (document.getElementById('noCheck').checked) {
+      document.getElementById('ifno').style.visibility = 'visible'
+      document.getElementById('ifyes').style.visibility = 'hidden';
+
+    }
+  }
+</script>
+<body>
+  <form enctype="multipart/form-data" method="post" action="http://192.168.1.59:8000/Infinity2.0/">
+  </form>
+  <form action="http://192.168.1.59:8000/Infinity2.0/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="absoluteCenter">
+      <div class="text-center">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8cVID5LsDQ8pSjt14E2nAvIaVYbOUl6H2y84vp6-9yw&s" />
+        <h1 style="background-color: #C2F261;padding: 1px 32px;"><b>Create New Project</b><span style="float:right;font-size:50%;text-align: center; margin-top: 12px;"> {{ user }} </span></h1>
+        <div style="padding-left: 50px;padding-right: 50px;padding-top: 20px;" class="row">
+          <div style="overflow:scroll; height:800px;" class="col-xl-6">
+            <h5><b>Project Details</b></h5>
+            <div class="input-group mb-3">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend"> <span class="input-group-text" id="basicaddon1">Client
+                    Code*&nbsp;</span> </div>
+                <input type="text" id="txtclientcode" placeholder="Enter Client Code" class="form-control"
+                  aria-describedby="basicaddon1" name='txtclientcode' required />
+              </div>
+
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect02">Assay Code*&nbsp;</label>
+                </div>
+
+                <select class="custom-select" id="inputGroupSelect02" name="txtassaycode">
+                  <option selected>Choose...</option>
+                  <option value="AAT-1">AAT-1 (Acute Toxicity Test)</option>
+                  <option value="AAT-2">AAT-2 (Acute Toxicity Test)</option>
+
+                  <option value="AET-1">AET-1 (Acute Efficacy Test)</option>
+                  <option value="AET-2">AET-2 (Acute Efficacy Test)</option>
+
+                  <option value="FAT-1">FAT-1 (Fat Accumulation Test)</option>
+
+                  <option value="LHA-1">LHA-1 (Lifespan & Healthspan Assay)</option>
+                  <option value="LHA-2">LHA-2 (Lifespan & Healthspan Assay)</option>
+
+                  <option value="OST-1">OST-1 (Oxidative Stress Test)</option>
+
+                  <option value="TTT-1">TTT-1 (Thermotolerance Test)</option>
+                  <option value="TTT-2">TTT-2 (Thermotolerance Test)</option>
+                  <option value="---">---</option>
+                </select>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-append">
+                  <label class="input-group-text" for="inputGroupSelect02">Substrate Type&nbsp;</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect02" name="txtsubstratetype">
+                  <option selected>Choose...</option>
+                  <option value="Infinity Chip">Infinity Chip</option>
+                  <option value="Agar Plate">Agar Plate</option>
+                  <option value="96-Well Plate">96-Well Plate</option>
+                  <option value="Teflon Slides">Teflon Slides</option>
+                  <option value="---">---</option>
+                </select>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-append">
+                  <label class="input-group-text" for="inputGroupSelect02">Bio Rep&nbsp;</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect02" name="txtbiorep">
+                  <option selected>Choose...</option>
+                  <option value='001'>001</option>
+                  <option value="002">002</option>
+                  <option value="003">003</option>
+                  <option value="004">004</option>
+                  <option value="005">005</option>
+                  <option value="006">006</option>
+                  <option value="007">007</option>
+                  <option value="008">008</option>
+                  <option value="009">009</option>
+                  <option value="001">010</option>
+                  <option value="---">---</option>
+                </select>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend"> <span class="input-group-text" id="basicaddon1">Loading
+                    Date*&nbsp;</span> </div>
+                <input type="date" id="txtloaddate" name="txtloaddate" min="2018-01-01" max="3000-12-31"
+                  class="form-control" aria-describedby="basicaddon1" required>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-append">
+                  <label class="input-group-text" for="inputGroupSelect02">Temperature&nbsp;</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect02" name="txttemperature">
+                  <option selected>Choose...</option>
+                  <option value="15 °C">15 °C</option>
+                  <option value="20 °C">20 °C</option>
+                  <option value="25 °C">25 °C</option>
+                  <option value="30 °C">30 °C</option>
+                  <option value="35 °C">35 °C</option>
+                  <option value="37 °C">37 °C</option>
+                  <option value="---">---</option>
+                </select>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-append">
+                  <label class="input-group-text" for="inputGroupSelect02">Media&nbsp;</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect02" name="txtmedia">
+                  <option selected>Choose...</option>
+                  <option value="Liquid NGM">Liquid NGM</option>
+                  <option value="M9-Buffer">M9-Buffer</option>
+                  <option value="S-basil">S-basil</option>
+                  <option value="S-Medium">S-Medium</option>
+                  <option value="---">---</option>
+                </select>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01"> Bacteria</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect01" name="txtbacteria">
+                  <option selected>Choose...</option>
+                  <option Value="Heat-Killed OP50">Heat-Killed OP50</option>
+                  <option value="Live OP50">Live OP50</option>
+                  <option value="Freeze-Dried OP50">Freeze-Dried OP50</option>
+                  <option value="---">---</option>
+                </select>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-append">
+                  <label class="input-group-text" for="inputGroupSelect02">Technical Replicate&nbsp;</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect02" name="txttechnicalreplicate">
+                  <option selected>Choose...</option>
+                  <option value='001'>001</option>
+                  <option value="002">002</option>
+                  <option value="003">003</option>
+                  <option value="004">004</option>
+                  <option value="005">005</option>
+                  <option value="006">006</option>
+                  <option value="007">007</option>
+                  <option value="008">008</option>
+                  <option value="009">009</option>
+                  <option value="010">010</option>
+                  <option value="---">---</option>
+                </select>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend"> <span class="input-group-text"
+                    id="basicaddon1">Operator/s*&nbsp;</span> </div>
+                <input type="text" id="txtoperator" placeholder="Enter Name of Operator" class="form-control"
+                  aria-describedby="basicaddon1" name="txtoperator" required />
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend"> <span class="input-group-text" id="basicaddon1">Number of
+                    Chips*&nbsp;</span> </div>
+                <input type="text" id="txtchips" placeholder="Number of Chips" class="form-control"
+                  aria-describedby="basicaddon1" name="txtchips" required />
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend"> <span class="input-group-text" id="basicaddon1">End Date*&nbsp;</span>
+                </div>
+                <input type="date" id="txtenddate" name="txtenddate" min="2018-01-01" max="3000-12-31"
+                  class="form-control" aria-describedby="basicaddon1" required>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend"> <span class="input-group-text" id="basicaddon1">Washing
+                    Time*&nbsp;</span> </div>
+                <input type="text" id="txtwashingtime" placeholder="Wash-Time (inc. Video) in hh:mm:ss"
+                  class="form-control" aria-describedby="basicaddon1" name="txtwashingtime" required />
+              </div>
+              <input type="file" name="myfile">
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <h5><b>Video Acquisition</b></h5>
+            <div>
+              <input type="radio" onclick="javascript:contlapseCheck();" name="yesno" id="yesCheck">
+              <label for="html">Standard</label>
+              <input type="radio" onclick="javascript:contlapseCheck();" name="yesno" id="noCheck">
+              <label for="html">Timelapse</label>
+            </div>
+            <div class="col-xl-12" id="ifyes" style="visibility:hidden">
+              <div class="input-group mb-3">
+                <div class="input-group-append">
+                  <label class="input-group-text" for="inputGroupSelect02">Resolution&nbsp;</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect02" name="txtresolution">
+                  <option selected>Choose...</option>
+                  <option value="720x480">720x480</option>
+                  <option value="2160x1440">2160x1440</option>
+                  <option value="3264x2448">3264x2448</option>
+                  <option value="---">---</option>
+                </select>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Framerate</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect01" name="txtframerate">
+                  <option selected>Choose...</option>
+                  <option value="2">2</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="---">---</option>
+                </select>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend"> <span class="input-group-text" id="basicaddon1">Video
+                    Length&nbsp;</span> </div>
+                <input type="text" class="form-control" aria-describedby="basicaddon1" name="txtmovielength"
+                  placeholder="hh:mm:ss">
+              </div>
+            </div>
+            <div class="col-xl-12" id="ifno" style="visibility:hidden">
+              <div class="input-group mb-3">
+                <div class="input-group-append">
+                  <label class="input-group-text" for="inputGroupSelect02">Resolution&nbsp;</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect02" name="tlresolution">
+                  <option selected>Choose...</option>
+                  <option value="640x480">640x480</option>
+                  <option value="2160x1440">2160x1440</option>
+                  <option value="3264x2448">3264x2448</option>
+                  <option value="---">---</option>
+                </select>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend"> <span class="input-group-text" id="basicaddon2">Time
+                    Interval&nbsp;</span> </div>
+                <input type="text" class="form-control" aria-describedby="basicaddon1" name="tltimeinterval"
+                  placeholder="hh:mm:ss">
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend"> <span class="input-group-text" id="inputGroupSelect01">Session
+                    Length&nbsp;</span> </div>
+                <input type="text" class="form-control" aria-describedby="basicaddon1" name="txtsessionlength"
+                  placeholder="hh:mm:ss">
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend"> <span class="input-group-text" id="basicaddon1">Playback Speed
+                    (fps)&nbsp;</span> </div>
+                <input type="text" class="form-control" aria-describedby="basicaddon1" name="tlplaybackspeed">
+                <!--how many frames in second of playback-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center">
+        <div style="padding-top: 50px;">
+          <div role="group">
+            <form method="post">
+              {% csrf_token %}
+              <button style="background-color: #8CCE43;padding: 1px 32px;color: black" type="submit"
+                class="btn btn-secondary mr-2" name="savefile/upload"><b>Save</b></button>
+              <button style="background-color: #ffd500;padding: 1px 32px; color: black" type="submit"
+                class="btn btn-secondary mr-2" name="Go_to_new_assay" formnovalidate><b>Reset</b></button>
+              <button style="background-color: #10CC76;padding: 1px 32px;color: black" type="submit"
+                class="btn btn-secondary mr-2" name="run_script" formnovalidate><b>Main Menu</b></button>
+          </div>
+        </div>
+      </div>
+  </form>
+  </div>
+  <div class="btn-group mr-2" role="group">
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap-4.4.1.js' %}"></script>
+  <script src="{% static 'js/save__file.js' %}"></script>
+  <script src="{% static 'js/downloadjson.js' %}"></script>
+  <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs"
+    data-app-key="lx9k2z1gwppevnl"></script>
+</body>
+
+</html>

@@ -1,0 +1,291 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Existing Assays</title>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap-4.4.1.css' %}" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<style>
+  .title-right {
+    float: right;
+    font-size: 15px;
+  }
+
+  .absoluteCenter img {
+    float: left;
+    width: 125px;
+    height: 50px;
+    background: #555;
+  }
+
+  .absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0;
+    /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .column {
+    flex: 50%;
+  }
+
+  .modal-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .modal-body {
+    padding: 2px 16px;
+  }
+
+  .modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .title-right {
+    float: right;
+    font-size: 15px;
+  }
+
+  .absoluteCenter img {
+    float: left;
+    width: 125px;
+    height: 50px;
+    background: #555;
+  }
+
+  .absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0;
+    /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .column {
+    flex: 50%;
+  }
+
+  .form-switch {
+    display: inline-block;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .form-switch i {
+    position: relative;
+    display: inline-block;
+    margin-right: .5rem;
+    width: 46px;
+    height: 26px;
+    background-color: #e6e6e6;
+    border-radius: 23px;
+    vertical-align: text-bottom;
+    transition: all 0.3s linear;
+  }
+
+  .form-switch i::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 42px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 11px;
+    transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
+    transition: all 0.25s linear;
+  }
+
+  .form-switch i::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 11px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24);
+    transform: translate3d(2px, 2px, 0);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .form-switch:active i::after {
+    width: 28px;
+    transform: translate3d(2px, 2px, 0);
+  }
+
+  .form-switch:active input:checked+i::after {
+    transform: translate3d(16px, 2px, 0);
+  }
+
+  .form-switch input {
+    display: none;
+  }
+
+  .form-switch input:checked+i {
+    background-color: #4BD763;
+  }
+
+  .form-switch input:checked+i::before {
+    transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0);
+  }
+
+  .form-switch input:checked+i::after {
+    transform: translate3d(22px, 2px, 0);
+  }
+</style>
+
+<body>
+  <div class="absoluteCenter">
+    <div class="text-center">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8cVID5LsDQ8pSjt14E2nAvIaVYbOUl6H2y84vp6-9yw&s" />
+      <h1 style="background-color: #F2F230;padding: 1px 32px;"><b>Existing Projects</b>&nbsp; <span style="float:right;font-size:50%;text-align: center; margin-top: 12px;"> {{ user }} </span></h1>
+      <div class="container">
+        <label class="input-group-text" for="inputGroupSelect01">Select Project</label>
+        <form method="post" action="http://192.168.1.59:8000/Infinity2.0/" id="myform">
+          {% csrf_token %}
+          <select class="custom-select" name="sortby" id="inputGroupSelect01" onchange="submitForm();">
+            <option value="" disabled selected hidden>Please Choose...</option>
+            {% for i in assaynames %}
+            <option value="{{ i }}">{{ i }} </option>
+            {% endfor %}
+          </select>
+        </form>
+        <div class="input-group-prepend">
+          <script type='text/javascript'>
+            function submitForm() {
+              // Call submit() method on <form id='myform'>
+              console.log(document.getElementById('myform'))
+              document.getElementById('myform').submit();
+            }
+          </script>
+        </div>
+      </div>
+      <div style="padding-top: 20px;"></div>
+      <div style="padding-left: 50px;padding-right: 50px;padding-top: 20px;" class="row">
+        <div style="overflow:scroll; height: 700px;" class="col-xl-8">
+          <h5><b>Project Overview</b></h5>
+          <div>
+            <div>
+              <form method="post" action="http://192.168.1.59:8000/Infinity2.0/" id="myform3">
+                {% csrf_token %}
+                <input type="radio" id="Summarized" value="Summarized" onchange="submitForm3();">
+                <label for="html">Summarized</label>
+                <input type="radio" id="Detailed" value="Detailed" name="Go_to_existing_assaysummarized" checked>
+                <label for="css">Detailed</label>
+              </form>
+            </div>
+          </div>
+          <script type='text/javascript'>
+            function submitForm3() {
+              // Call submit() method on <form id='myform'>
+              document.getElementById('myform3').submit();
+            }
+          </script>
+          {% include "Currentexcelprofile.html" %}
+          </table>
+        </div>
+        <div style="overflow:scroll; height: 500px;padding-top: 30px;" class="col-xl-4">
+          <h5><b>Video Acquisition Details</b></h5>
+          <table id="table2" border="1" class="table">
+            <!-- The Row Number 0 -->
+            <tr>
+              <th style="width: 300px;" scope="row">Resolution</th>
+              <td>{{CurrentProfile.resolution}}</td>
+            </tr>
+            <tr>
+              <th>Framerate</th>
+              <td>{{CurrentProfile.framerate}}</td>
+            </tr>
+            <tr>
+              <th>Movie Length</th>
+              <td>{{CurrentProfile.movielength}}</td>
+            </tr>
+            <tr>
+              <th>Session length</th>
+              <td>{{CurrentProfile.sessionlength}}</td>
+            </tr>
+            <tr>
+              <th>Number of Sessions</th>
+              <td>{{CurrentProfile.numberofsessions}}</td>
+            </tr>
+        </div>
+        </table>
+      </div>
+      <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group mr-2" role="group">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-center">
+
+    <div style="padding-top: 50px;">
+      <div role="group">
+        <form method="post">
+          {% csrf_token %}
+          <button style="background-color: #8CCE43;padding: 1px 32px;color: black" type="submit"
+            class="btn btn-secondary" name="Running_Assay"><b>Start Session</b></button>
+          <button style="background-color: #10CC76;padding: 1px 32px;color: black" type="submit" class="btn btn-primary"
+            name="run_script"><b>Back</b></button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Include all compiled plugins (below), or include individual files as needed <script type='module' src="{% static 'js/tablepopulator.js' %}"></script>-->
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap-4.4.1.js' %}"></script>
+
+
+
+
+
+</body>
+
+</html>

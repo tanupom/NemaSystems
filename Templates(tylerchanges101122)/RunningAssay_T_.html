@@ -1,0 +1,380 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Running Assay</title>
+<!-- Bootstrap -->
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static '/css/bootstrap-4.4.1.css' %}"
+    />
+</head>
+
+<style>
+  .title-right {
+    float: right;
+    font-size: 15px;
+}
+.absoluteCenter img {
+  float: left;
+  width: 125px;
+  height: 50px;
+  background: #555;
+}
+.absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0; /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0; /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+}
+.row {
+    display: flex;
+}
+.column {
+    flex: 50%;
+}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 50%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+.title-right {
+    float: right;
+    font-size: 15px;
+}
+.absoluteCenter img {
+  float: left;
+  width: 125px;
+  height: 50px;
+  background: #555;
+}
+.absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0; /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0; /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+}
+.row {
+    display: flex;
+}
+.column {
+    flex: 50%;
+}
+.form-switch {
+  display: inline-block;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.form-switch i {
+  position: relative;
+  display: inline-block;
+  margin-right: .5rem;
+  width: 46px;
+  height: 26px;
+  background-color: #e6e6e6;
+  border-radius: 23px;
+  vertical-align: text-bottom;
+  transition: all 0.3s linear;
+}
+.form-switch i::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 42px;
+  height: 22px;
+  background-color: #fff;
+  border-radius: 11px;
+  transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
+  transition: all 0.25s linear;
+}
+.form-switch i::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  background-color: #fff;
+  border-radius: 11px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24);
+  transform: translate3d(2px, 2px, 0);
+  transition: all 0.2s ease-in-out;
+}
+.form-switch:active i::after {
+  width: 28px;
+  transform: translate3d(2px, 2px, 0);
+}
+
+.form-switch:active input:checked + i::after { transform: translate3d(16px, 2px, 0); }
+.form-switch input { display: none; }
+.form-switch input:checked + i { background-color: #4BD763; }
+.form-switch input:checked + i::before { transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0); }
+.form-switch input:checked + i::after { transform: translate3d(22px, 2px, 0); }
+
+</style>
+<body>
+<div class="absoluteCenter">
+  <div class="text-center">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8cVID5LsDQ8pSjt14E2nAvIaVYbOUl6H2y84vp6-9yw&s" />
+
+    <h1 style="background-color: #F2F230;padding: 1px 32px;"><b>{{ CurrentProfile }}</b>&nbsp; <span style="float:right;font-size:50%;text-align: center; margin-top: 12px;"> {{ user }} </span></h1>
+    <div class="row">
+      <div class="col-xl-6">
+
+
+        <video src="http://192.168.1.59:8084" width=800 height=380 type="video/ogg" codecs="theora, vorbis"controls autoplay muted>></video>
+      </div>
+      <div class="col-xl-6">
+        <label class="form-switch">
+          <input type="checkbox" checked>
+          <i></i>
+          <b>Pump 2</b>
+        </label>
+
+        <video src="http://192.168.1.59:8085" width=800 height=380 controls autoplay muted>></video>
+      </div>
+    </div>
+    <progress id="demo" value="50" max="100"> 50% </progress>
+    <div class="row">
+      <div class="col-xl-6">
+        <label class="form-switch">
+          <input type="checkbox" checked>
+          <i></i>
+          <b>Pump 3</b>
+        </label>
+
+        <video src="http://192.168.1.59:8086" width=800 height=380 controls autoplay muted></video>
+      </div>
+      <div class="col-xl-6">
+        <label class="form-switch">
+          <input type="checkbox" checked>
+          <i></i>
+          <b>Pump 4</b>
+        </label>
+
+        <video src="http://192.168.1.59:8087" width=800 height=380 controls autoplay muted></video>
+      </div>
+    </div>
+
+
+    <form id="myForm" name= "" method ="post">
+
+      {% csrf_token %}
+    
+          <!-- Modal content -->
+    
+          <div id="myModal" class="modal">
+    
+            <!-- Modal content -->
+    
+            <div class="modal-content">
+    
+              <div class="modal-header" style="text-align: center;">
+    
+                <h2><b>Select Videos to Upload</b></h2>
+    
+                <!-- <span class="close">&times;</span> -->
+    
+              </div>
+    
+              <div class="modal-body">
+    
+
+                <div class="row">
+  
+                  <div class="col-xl-6">
+  
+                    <label class="form-switch">
+                      <input type="checkbox" id=movie1 name='movie1' checked>
+                      <i></i>
+                      <b>Movie 1</b>
+                    </label>
+                  </div>
+                  <div class="col-xl-6">
+                    <label class="form-switch">
+                      <input type="checkbox" id=movie2 name='movie2' checked>
+                      <i></i>
+                      <b>Movie 2</b>
+                    </label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-6">
+                    <label class="form-switch">
+                      <input type="checkbox" id=movie3 name='movie3' checked>
+  
+                      <i></i>
+                      <b>Movie 3</b>
+                    </label>
+  
+                  </div>
+                  <div class="col-xl-6">
+                    <label class="form-switch">
+                      <input type="checkbox" id=movie4 name='movie4' checked>
+                      <i></i>
+                      <b>Movie 4</b>
+                    </label>
+                  </div>
+                </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button style="background-color: #8EF1FF;padding: 1px 32px;color: black" type="submit" class="btn btn-secondary" name="movetoggledvideos"><b>Upload Movies</b></button>
+                    </div>
+                    </div>
+                    </div>
+    <div class="btn-toolbar;text-center" role="toolbar" >
+      <div class="btn-group mr-2" role="group">
+        <button style="background-color: #FF6B6B;padding: 1px 32px;color: black" type="submit" class="btn btn-secondary" name="StopRecording"><b>End Cycle</b></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Include all compiled plugins (below), or include individual files as needed --> 
+<script src="{% static 'js/popper.min.js' %}"></script> 
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap-4.4.1.js' %}"></script>
+<script>
+  // Set the date we're counting down to
+  var timeRemaining = "{{ timeuser }}";
+  var startTime = "{{ timeuser }}";
+  var modal = document.getElementById("myModal");
+  // Update the count down every 1 second
+  var x = setInterval(function() {
+
+    timeRemaining = timeRemaining-1;
+
+    console.log(timeRemaining);
+  
+    // Display the result in the element with id="demo"
+    document.getElementById("demo").value = Math.floor((timeRemaining / startTime)*100)
+    console.log(timeRemaining / startTime)
+    // If the count down is finished, write some text
+    if (timeRemaining <= 0) {
+      modal.style.display = "block";
+      clearInterval(x);
+      document.getElementById("demo").innerHTML = "Imaging Complete";
+      //document.getElementById("myForm").submit()
+    }
+  }, 1000);
+  </script>
+<script>
+  // Get the modal
+  var modal = document.getElementById("myModal");
+  
+  // Get the button that opens the modal
+  var btn = document.getElementById("myBtn");
+  
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+  
+  // When the user clicks the button, open the modal 
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+  
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+  </script>
+
+
+
+</body>
+</html>

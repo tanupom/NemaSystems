@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>New Assay</title>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap-4.4.1.css' %}" />
+</head>
+<style>
+  .absoluteCenter img {
+    float: left;
+    width: 125px;
+    height: 50px;
+    background: #555;
+  }
+
+  .absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0;
+    /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .column {
+    flex: 50%;
+  }
+
+  .title-right {
+    float: right;
+    font-size: 15px;
+  }
+</style>
+<script>
+  function contlapseCheck() {
+    if (document.getElementById('yesCheck').checked) {
+      document.getElementById('ifyes').style.visibility = 'visible'
+      document.getElementById('ifno').style.visibility = 'hidden';
+    }
+    if (document.getElementById('noCheck').checked) {
+      document.getElementById('ifno').style.visibility = 'visible'
+      document.getElementById('ifyes').style.visibility = 'hidden';
+    }
+  }
+</script>
+
+<body>
+  <form action="http://192.168.1.59:8000/Infinity2.0/" method="post">
+    {% csrf_token %}
+    <div class="absoluteCenter">
+      <div class="text-center">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8cVID5LsDQ8pSjt14E2nAvIaVYbOUl6H2y84vp6-9yw&s" />
+        <h1 style="background-color: #C2F261;padding: 1px 32px;"><b>Create New Project</b><span style="float:right;font-size:50%;text-align: center; margin-top: 12px;"> {{ user }} </span></h1>
+        <div class="row">
+          <div style="overflow:scroll; height:600px;" class="col-xl-4"><b>Project Details</b>
+            <div class="input-group mb-3">
+              <form enctype="multipart/form-data" method="post" action="http://192.168.1.59:8000/Infinity2.0/">
+              </form>
+              <form enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                <input type="file" name="myfile">
+                <button type="submit" name="button_to_upload_excel">Upload</button>
+              </form>
+            </div>
+          </div>
+          <div class="col-xl-8"><b>Video Mode: </b>
+            Continuous <input type="radio" onclick="javascript:contlapseCheck();" name="yesno" id="yesCheck">
+            Time-Lapse <input type="radio" onclick="javascript:contlapseCheck();" name="yesno" id="noCheck">
+            <div class="col-xl-8" id="ifyes" style="visibility:hidden">
+              <div class="input-group mb-3">
+                <div class="input-group-append">
+                  <label class="input-group-text" for="inputGroupSelect02">Resolution&nbsp;</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect02" name="txtresolution">
+                  <option selected>3264x2448</option>
+                  <option value="1">720x480</option>
+                  <option value="2">1920x1080</option>
+                </select>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Framerate</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect01" name="txtframerate">
+                  <option selected>5</option>
+                  <option value="1">2</option>
+                  <option value="2">10</option>
+                  <option value="3">15</option>
+                </select>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend"> <span class="input-group-text" id="basicaddon1">Movie
+                    Length&nbsp;</span> </div>
+                <input type="text" class="form-control" aria-describedby="basicaddon1" name="txtmovielength"
+                  placeholder="hh:mm:ss">
+              </div>
+            </div>
+            <div class="col-xl-8" id="ifno" style="visibility:hidden">
+              <div class="input-group mb-3">
+                <div class="input-group-append">
+                  <label class="input-group-text" for="inputGroupSelect02">Resolution&nbsp;</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect02" name="tlresolution">
+                  <option selected>3264x2448</option>
+                  <option value="1">720x480</option>
+                  <option value="2">2160x1440</option>
+                </select>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Time Interval&nbsp;</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect01" name="tltimeinterval">
+                  <option selected>Choose...</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend"> <span class="input-group-text" id="basicaddon1">Movie
+                    Length&nbsp;</span> </div>
+                <input type="text" class="form-control" aria-describedby="basicaddon1" name="tlmovielength"
+                  placeholder="hh:mm:ss">
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend"> <span class="input-group-text" id="basicaddon1">Playback
+                    Speed&nbsp;</span> </div>
+                <input type="text" class="form-control" aria-describedby="basicaddon1" name="tlplaybackspeed">
+                <!--how many frames in second of playback-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="btn-toolbar;text-center" role="toolbar">
+        <div class="btn-group mr-2" role="group">
+          <button style="background-color: #10CC76;padding: 10px 32px;color: black" type="submit"
+            class="btn btn-primary" name="run_script" formnovalidate>Back</button>
+          <button style="background-color: #8CCE43;padding: 10px 32px;color: black" type="submit"
+            class="btn btn-primary" name="Go_to_new_assay" formnovalidate>Reset</button>
+          <input type="submit" style="background-color: #8CCE43;padding: 10px 32px;color: black"
+            class="btn btn-secondary" value="Save" name="meatlaof">
+  </form>
+  </div>
+  <div class="btn-group mr-2" role="group">
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap-4.4.1.js' %}"></script>
+  <script src="{% static 'js/save__file.js' %}"></script>
+  <script src="{% static 'js/downloadjson.js' %}"></script>
+  <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs"
+    data-app-key="lx9k2z1gwppevnl"></script>
+</body>
+
+</html>

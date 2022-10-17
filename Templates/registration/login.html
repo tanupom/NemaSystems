@@ -1,0 +1,522 @@
+{% load static %}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Untitled Document</title>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap-4.4.1.css' %}">
+</head>
+<style>
+  .absoluteCenter img {
+    float: left;
+    width: 125px;
+    height: 50px;
+    background: #555;
+  }
+
+  .absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0;
+    /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .column {
+    flex: 50%;
+  }
+
+  .space {
+    width: 4px;
+    height: auto;
+    display: inline-block;
+  }
+
+  .button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 350px;
+    height: 50px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+
+  .title-right {
+    float: right;
+    font-size: 15px;
+  }
+
+  .title-left {
+    display: inline;
+  }
+
+  .modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+  }
+
+  /* Modal Content */
+  .modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+  }
+
+  /* Add Animation */
+  @-webkit-keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  @keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  /* The Close Button */
+  .close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .modal-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .modal-body {
+    padding: 2px 16px;
+  }
+
+  .modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .title-right {
+    float: right;
+    font-size: 15px;
+  }
+
+  .absoluteCenter img {
+    float: left;
+    width: 125px;
+    height: 50px;
+    background: #555;
+  }
+
+  .absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0;
+    /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .column {
+    flex: 50%;
+  }
+
+  .form-switch {
+    display: inline-block;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .form-switch i {
+    position: relative;
+    display: inline-block;
+    margin-right: .5rem;
+    width: 46px;
+    height: 26px;
+    background-color: #e6e6e6;
+    border-radius: 23px;
+    vertical-align: text-bottom;
+    transition: all 0.3s linear;
+  }
+
+  .form-switch i::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 42px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 11px;
+    transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
+    transition: all 0.25s linear;
+  }
+
+  .form-switch i::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 11px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24);
+    transform: translate3d(2px, 2px, 0);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .form-switch:active i::after {
+    width: 28px;
+    transform: translate3d(2px, 2px, 0);
+  }
+
+  .form-switch:active input:checked+i::after {
+    transform: translate3d(16px, 2px, 0);
+  }
+
+  .form-switch input {
+    display: none;
+  }
+
+  .form-switch input:checked+i {
+    background-color: #4BD763;
+  }
+
+  .form-switch input:checked+i::before {
+    transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0);
+  }
+
+  .form-switch input:checked+i::after {
+    transform: translate3d(22px, 2px, 0);
+  }
+
+  .modal2 {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+  }
+
+  /* Modal Content */
+  .modal2-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop2;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop2;
+    animation-duration: 0.4s
+  }
+
+  /* Add Animation */
+  @-webkit-keyframes animatetop2 {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  @keyframes animatetop2 {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  /* The Close Button */
+  .close2 {
+    color: rgb(255, 255, 255);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close2:hover,
+  .close2:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+
+  .modal2-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .modal2-body {
+    padding: 2px 16px;
+  }
+
+  .modal2-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .container {
+    height: 200px;
+    position: relative;
+  }
+
+  .center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: 50%;
+    bottom: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+<body>
+
+
+
+
+
+
+
+  <!-- body code goes here -->
+  <div class="container">
+
+    <div class="center">
+      <form method="post">
+        {% csrf_token %}
+        <img src="{% static '\Images\Nemalife-Logo-A-Green-Blk.jpg' %}" alt="" width="240" height="72" />
+        {{ form.as_p }}
+        <button  type="submit">Sign-In&nbsp;</button>
+      </form>
+      <button type="image" id="myBtn">
+        <img src="{% static '\Images\powerbuttonicon.png' %}" width="30" height="30" />
+      </button>
+    </div>
+  </div>
+
+
+
+
+  <!-- Modal content z-->
+  <div id="myModal" class="modal">
+
+
+    <!-- Modal content -->
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h2>System Shutdown</h2>
+
+        <span class="close">&times;</span>
+
+
+      </div>
+
+      <div class="modal-body" style="text-align: center">
+
+        <p>System will auto shutdown when video processing is complete.</p>
+
+        <p>Please do not unplug system.</p>
+
+        <p>Click <b>OK</b> to confirm.</p>
+
+
+        <div class="row">
+          <div class="col-xl-6">
+
+          </div>
+
+          <div class="col-xl-6">
+
+          </div>
+
+        </div>
+
+        <div class="row">
+
+          <div class="col-xl-6">
+
+          </div>
+
+          <div class="col-xl-6">
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <form method="post" action="http://192.168.1.59:8000/Infinity2.0/">
+          {% csrf_token %}
+          <button style="background-color: #8EF1FF;padding: 1px 32px;color: black" type="submit"
+            class="btn btn-secondary" name="System_Shutdown" formnovalidate>OK</button>
+
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function () {
+      modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap-4.4.1.js' %}"></script>
+</body>
+
+</html>

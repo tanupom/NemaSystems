@@ -1,0 +1,919 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Running Assay Live</title>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap-4.4.1.css' %}" />
+</head>
+
+<style>
+  .title-right {
+    float: right;
+    font-size: 15px;
+  }
+
+  .absoluteCenter img {
+    float: left;
+    width: 125px;
+    height: 50px;
+    background: #555;
+  }
+
+  .absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0;
+    /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .column {
+    flex: 50%;
+  }
+
+  .modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+  }
+
+  /* Modal Content */
+  .modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+  }
+
+  /* Add Animation */
+  @-webkit-keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  @keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  /* The Close Button */
+  .close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .modal-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .modal-body {
+    padding: 2px 16px;
+  }
+
+  .modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .title-right {
+    float: right;
+    font-size: 15px;
+  }
+
+  .absoluteCenter img {
+    float: left;
+    width: 125px;
+    height: 50px;
+    background: #555;
+  }
+
+  .absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0;
+    /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .column {
+    flex: 50%;
+  }
+
+  .form-switch {
+    display: inline-block;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .form-switch i {
+    position: relative;
+    display: inline-block;
+    margin-right: .5rem;
+    width: 46px;
+    height: 26px;
+    background-color: #e6e6e6;
+    border-radius: 23px;
+    vertical-align: text-bottom;
+    transition: all 0.3s linear;
+  }
+
+  .form-switch i::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 42px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 11px;
+    transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
+    transition: all 0.25s linear;
+  }
+
+  .form-switch i::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 11px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24);
+    transform: translate3d(2px, 2px, 0);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .form-switch:active i::after {
+    width: 28px;
+    transform: translate3d(2px, 2px, 0);
+  }
+
+  .form-switch:active input:checked+i::after {
+    transform: translate3d(16px, 2px, 0);
+  }
+
+  .form-switch input {
+    display: none;
+  }
+
+  .form-switch input:checked+i {
+    background-color: #4BD763;
+  }
+
+  .form-switch input:checked+i::before {
+    transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0);
+  }
+
+  .form-switch input:checked+i::after {
+    transform: translate3d(22px, 2px, 0);
+  }
+
+  .button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 350px;
+    height: 50px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+
+  .title-right {
+    float: right;
+    font-size: 15px;
+  }
+
+  .title-left {
+    display: inline;
+  }
+
+  .modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+  }
+
+  /* Modal Content */
+  .modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+  }
+
+  /* Add Animation */
+  @-webkit-keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  @keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  /* The Close Button */
+  .close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .modal-header {
+    padding: 2px 16px;
+    background-color: #ff0000;
+    color: white;
+  }
+
+  .modal-body {
+    padding: 2px 16px;
+  }
+
+  .modal-footer {
+    padding: 2px 16px;
+    background-color: #ff0000;
+    color: white;
+  }
+
+  .title-right {
+    float: right;
+    font-size: 15px;
+  }
+
+  .absoluteCenter img {
+    float: left;
+    width: 125px;
+    height: 50px;
+    background: #555;
+  }
+
+  .absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0;
+    /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .column {
+    flex: 50%;
+  }
+
+  .form-switch {
+    display: inline-block;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .form-switch i {
+    position: relative;
+    display: inline-block;
+    margin-right: .5rem;
+    width: 46px;
+    height: 26px;
+    background-color: #e6e6e6;
+    border-radius: 23px;
+    vertical-align: text-bottom;
+    transition: all 0.3s linear;
+  }
+
+  .form-switch i::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 42px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 11px;
+    transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
+    transition: all 0.25s linear;
+  }
+
+  .form-switch i::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 11px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24);
+    transform: translate3d(2px, 2px, 0);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .form-switch:active i::after {
+    width: 28px;
+    transform: translate3d(2px, 2px, 0);
+  }
+
+  .form-switch:active input:checked+i::after {
+    transform: translate3d(16px, 2px, 0);
+  }
+
+  .form-switch input {
+    display: none;
+  }
+
+  .form-switch input:checked+i {
+    background-color: #4BD763;
+  }
+
+  .form-switch input:checked+i::before {
+    transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0);
+  }
+
+  .form-switch input:checked+i::after {
+    transform: translate3d(22px, 2px, 0);
+  }
+
+  .modal2 {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+  }
+
+  /* Modal Content */
+  .modal2-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop2;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop2;
+    animation-duration: 0.4s
+  }
+
+  /* Add Animation */
+  @-webkit-keyframes animatetop2 {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  @keyframes animatetop2 {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  /* The Close Button */
+  .close2 {
+    color: rgb(255, 255, 255);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close2:hover,
+  .close2:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+
+  .modal2-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .modal2-body {
+    padding: 2px 16px;
+  }
+
+  .modal2-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+</style>
+
+<body>
+
+
+
+  <!-- Modal content -->
+
+  <div id="myModal2" class="modal2">
+
+
+    <!-- Modal content -->
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h2><b>Please Check if:</b></h2>
+
+        <span class="close2">&times;</span>
+
+
+      </div>
+      <form method="post">
+        {% csrf_token %}
+        <div class="modal-body">
+
+          <input style="text-align: left; " type="checkbox" id="vehicle1" name="vehicle1" value="Bike" required
+            oninvalid="this.setCustomValidity('Please Check Boxes to Start')" />
+          <label for="vehicle1">-Chip markers and Chip ID are visible</label><br>
+
+          <input style="text-align: left; " type="checkbox" id="vehicle1" name="vehicle1" value="Bike" 
+            oninvalid="this.setCustomValidity('Please Check Boxes to Start')" />
+          <label for="vehicle1">-{{CurrentProfile.media}} Buffer solution is connected</label><br>
+
+          <input style="text-align: left; " type="checkbox" id="vehicle1" name="vehicle1" value="Bike" 
+            oninvalid="this.setCustomValidity('Please Check Boxes to Start')" />
+          <label for="vehicle1">-Both inlet and outlet tubing are connected to chips and resevoir</label><br>
+
+          <input style="text-align: left; " type="checkbox" id="vehicle1" name="vehicle1" value="Bike" 
+            oninvalid="this.setCustomValidity('Please Check Boxes to Start')" />
+          <label for="vehicle1">-Check selected chip ID</label><br>
+
+          <input style="text-align: left; " type="checkbox" id="vehicle1" name="vehicle1" value="Bike"  
+            oninvalid="this.setCustomValidity('Please Check Boxes to Start')" />
+          <label for="vehicle1">-{{CurrentProfile.media}} level</label><br>
+
+          <div class="row">
+            <div class="col-xl-6">
+
+            </div>
+
+            <div class="col-xl-6">
+
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-xl-6">
+
+            </div>
+
+            <div class="col-xl-6">
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+
+          <button style="background-color: #8EF1FF;padding: 1px 32px;color: black" type="submit"
+            class="btn btn-secondary" name="tcameras"><b>Start</b></button>
+
+
+        </div>
+      </form>
+    </div>
+
+  </div>
+  <div class="absoluteCenter">
+    <div class="text-center">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8cVID5LsDQ8pSjt14E2nAvIaVYbOUl6H2y84vp6-9yw&s" />
+
+      <h1 style="background-color: #F2F230;padding: 1px 32px;"><b>{{ headername }}</b>&nbsp; <span
+          style="float:right;font-size:50%;text-align: center; margin-top: 12px;"> {{ user }} </span></h1>
+      <div class="row">
+        <div class="col">
+          <div style="padding-bottom: 1px">
+            <label class="form-switch">
+
+              <input id="c1" type="checkbox" checked>
+              <i></i>
+              <label style="margin-top: 15px;"><b>On/Off</b></label>
+
+              <span style="float:right;font-size:50%;text-align: center; margin-left: 250px;">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="ChipID1">Chip ID</label>
+                  </div>
+                  <div class="text-center">
+                    <form method="post" action="http://192.168.1.59:8000/Infinity2.0/" id="myform">
+                      {% csrf_token %}
+                      <select class="custom-select" name="sortby" id="ChipID1" onchange="submitForm();" required>
+                        <option value="" disabled selected hidden>Please Choose...</option>
+                        {% for i in ChipIds %}
+                        <option value="{{ i }}">{{ i }} </option>
+                        {% endfor %}
+                      </select>
+                    </form>
+                  </div>
+                </div>
+
+              </span>
+            </label>
+          </div>
+          <video src="http://192.168.1.59:8080" width=800 height=380 type="video/ogg" codecs="theora, vorbis" controls
+            autoplay muted>></video>
+        </div>
+        <div class="col">
+          <div style="padding-bottom: 1px">
+            <label class="form-switch">
+
+              <input id="c2" type="checkbox" checked>
+              <i></i>
+              <label style="margin-top: 15px;"><b>On/Off</b></label>
+
+              <span style="float:right;font-size:50%;text-align: center; margin-left: 250px;">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="ChipID2">Chip ID</label>
+                  </div>
+                  <div class="text-center">
+                    <form method="post" action="http://192.168.1.59:8000/Infinity2.0/" id="myform">
+                      {% csrf_token %}
+                      <select class="custom-select" name="sortby" id="ChipID2" onchange="submitForm();" required>
+                        <option value="" disabled selected hidden>Please Choose...</option>
+                        {% for i in ChipIds %}
+                        <option value="{{ i }}">{{ i }} </option>
+                        {% endfor %}
+                      </select>
+                    </form>
+                  </div>
+                </div>
+
+              </span>
+            </label>
+          </div>
+          <video src="http://192.168.1.59:8081" width=800 height=380 type="video/ogg" codecs="theora, vorbis" controls
+            autoplay muted>></video>
+        </div>
+      </div>
+      <button style="background-color: #8CCE43;padding: 1px 32px;color: black" type="button" class="btn btn-secondary"
+        name="tcameras" id="myBtn2"><b>Start Cycle</b></button>
+      <div class="row">
+        <div class="col">
+          <div style="padding-bottom: 1px">
+            <label class="form-switch">
+
+              <input id="c3" type="checkbox" checked>
+              <i></i>
+              <label style="margin-top: 15px;"><b>On/Off</b></label>
+
+              <span style="float:right;font-size:50%;text-align: center; margin-left: 250px;">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="ChipID3">Chip ID</label>
+                  </div>
+                  <div class="text-center">
+                    <form method="post" action="http://192.168.1.59:8000/Infinity2.0/" id="myform">
+                      {% csrf_token %}
+                      <select class="custom-select" name="sortby" id="ChipID3" onchange="submitForm();" required>
+                        <option value="" disabled selected hidden>Please Choose...</option>
+                        {% for i in ChipIds %}
+                        <option value="{{ i }}">{{ i }} </option>
+                        {% endfor %}
+                      </select>
+                    </form>
+                  </div>
+                </div>
+
+              </span>
+            </label>
+          </div>
+          <video src="http://192.168.1.59:8082" width=800 height=380 type="video/ogg" codecs="theora, vorbis" controls
+            autoplay muted>></video>
+        </div>
+        <div class="col">
+          <div style="padding-bottom: 1px">
+            <label class="form-switch">
+
+              <input id="c4" type="checkbox" checked>
+              <i></i>
+              <label style="margin-top: 15px;"><b>On/Off</b></label>
+
+              <span style="float:right;font-size:50%;text-align: center; margin-left: 250px;">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="ChipID4">Chip ID</label>
+                  </div>
+                  <div class="text-center">
+                    <form method="post" action="http://192.168.1.59:8000/Infinity2.0/" id="myform">
+                      {% csrf_token %}
+                      <select class="custom-select" name="sortby" id="ChipID4" onchange="submitForm();">
+                        <option value="" disabled selected hidden>Please Choose...</option>
+                        {% for i in ChipIds %}
+                        <option value="{{ i }}">{{ i }} </option>
+                        {% endfor %}
+                      </select>
+                    </form>
+                  </div>
+                </div>
+
+              </span>
+            </label>
+          </div>
+          <video src="http://192.168.1.59:8083" width=800 height=380 type="video/ogg" codecs="theora, vorbis" controls
+            autoplay muted>></video>
+        </div>
+      </div>
+      <form method="post">
+        {% csrf_token %}
+        <!-- Modal content -->
+        <div id="myModal" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2><b>End Session</b></h2>
+              <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+              <p style="text-align: center; ">Please <b>Confirm</b> end of current session. <br>
+                Once End Session is clicked, <b>{{ Numberofvideostoupload }} videos will be queued to be uploaded to dropbox</b> </p>
+            </div>
+            <div class="modal-footer">
+              <button style="background-color: #8EF1FF;padding: 1px 32px;color: black" type="submit"
+                class="btn btn-secondary" name="run_script_cam"><b>Confirm</b></button>
+            </div>
+          </div>
+        </div>
+        <div class="btn-toolbar;text-center" role="toolbar">
+          <div class="btn-group mr-2" role="group">
+
+            <button style="background-color: #FF6B6B;padding: 1px 32px;color: black" type="button"
+              class="btn btn-secondary" name="run_script_cam" id="myBtn" title="Link Title"><b>End Session</b></button>
+      </form>
+    </div>
+  </div>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap-4.4.1.js' %}"></script>
+  <script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function () {
+      modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+
+  <script>
+    // Get the modal
+    var modal2 = document.getElementById("myModal2");
+
+    // Get the button that opens the modal
+    var btn2 = document.getElementById("myBtn2");
+
+    // Get the <span> element that closes the modal
+    var span2 = document.getElementsByClassName("close2")[0];
+
+    // When the user clicks the button, open the modal 
+    btn2.onclick = function () {
+      modal2.style.display = "block";
+      SubmitBoxes();
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span2.onclick = function () {
+      modal2.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal2) {
+        modal2.style.display = "none";
+      }
+    }
+
+  </script>
+  <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+  <script type="text/javascript">
+    function SubmitBoxes() {
+      console.log("BoxesSubmit");
+      var toggled = document.getElementById("c1").checked;
+      var toggled2 = document.getElementById("c2").checked;
+      var toggled3 = document.getElementById("c3").checked;
+      var toggled4 = document.getElementById("c4").checked;
+      var ChipID1 = document.getElementById("ChipID1").value;
+      var ChipID2 = document.getElementById("ChipID2").value;
+      var ChipID3 = document.getElementById("ChipID3").value;
+      var ChipID4 = document.getElementById("ChipID4").value;
+      $.ajax({
+        url: 'StopPumpOne/',
+        type: 'post',
+        data: { csrfmiddlewaretoken: window.CSRF_TOKEN, Camera1: toggled, Camera2: toggled2, Camera3: toggled3, Camera4: toggled4, Ch1: ChipID1, Ch2: ChipID2, Ch3: ChipID3, Ch4: ChipID4 },
+        success: function (data) {
+
+        },
+        failure: function (data) {
+          alert('Encountered an error');
+        }
+      });
+
+    };
+  </script>
+
+
+</body>
+
+</html>

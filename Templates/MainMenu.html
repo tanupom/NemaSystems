@@ -1,0 +1,604 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Main Menu</title>
+<!-- Bootstrap -->
+    <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static '/css/bootstrap-4.4.1.css' %}"
+    />
+</head>
+
+<style>
+.absoluteCenter img {
+  float: left;
+  width: 125px;
+  height: 50px;
+  background: #555;
+}
+
+.absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0; /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0; /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+}
+.row {
+    display: flex;
+}
+.column {
+    flex: 50%;
+}
+.space {
+  width: 4px;
+  height: auto;
+  display: inline-block;
+}
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 350px;
+  height: 50px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+.title-right {
+    float: right;
+    font-size: 15px;
+}
+
+.title-left {
+    display: inline;
+}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 50%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+.title-right {
+    float: right;
+    font-size: 15px;
+}
+.absoluteCenter img {
+  float: left;
+  width: 125px;
+  height: 50px;
+  background: #555;
+}
+.absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0; /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0; /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+}
+.row {
+    display: flex;
+}
+.column {
+    flex: 50%;
+}
+.form-switch {
+  display: inline-block;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.form-switch i {
+  position: relative;
+  display: inline-block;
+  margin-right: .5rem;
+  width: 46px;
+  height: 26px;
+  background-color: #e6e6e6;
+  border-radius: 23px;
+  vertical-align: text-bottom;
+  transition: all 0.3s linear;
+}
+.form-switch i::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 42px;
+  height: 22px;
+  background-color: #fff;
+  border-radius: 11px;
+  transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
+  transition: all 0.25s linear;
+}
+.form-switch i::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  background-color: #fff;
+  border-radius: 11px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24);
+  transform: translate3d(2px, 2px, 0);
+  transition: all 0.2s ease-in-out;
+}
+.form-switch:active i::after {
+  width: 28px;
+  transform: translate3d(2px, 2px, 0);
+}
+
+.form-switch:active input:checked + i::after { transform: translate3d(16px, 2px, 0); }
+.form-switch input { display: none; }
+.form-switch input:checked + i { background-color: #4BD763; }
+.form-switch input:checked + i::before { transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0); }
+.form-switch input:checked + i::after { transform: translate3d(22px, 2px, 0); }
+.modal2 {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal2-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop2;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop2;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop2 {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop2 {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close2 {
+  color: rgb(255, 255, 255);
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close2:hover,
+.close2:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+.modal2-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.modal2-body {padding: 2px 16px;}
+
+.modal2-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+.rounded-corners {
+  border-radius: 5px;
+}
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: 50%;
+    bottom: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+</style>
+<body>
+<div class="absoluteCenter">
+<div class="text-center">
+
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8cVID5LsDQ8pSjt14E2nAvIaVYbOUl6H2y84vp6-9yw&s" />
+  <h1 style="background-color: #004B23;padding: 1px 32px;color: white"><b>Main Menu</b>&nbsp; <span style="float:right;font-size:50%;text-align: center; margin-top: 12px;"> {{ user }} </span></h1> 
+
+
+  
+
+
+  <form style="text-align: center; " method="post">
+    {% csrf_token %}
+    <div style="padding-top: 250px;"></div>
+    <div style="padding-left: 50px">
+  <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+
+
+
+
+    
+
+    <form method="post">
+      {% csrf_token %}
+      <button style="background-color: #91F291;padding: 1px 75px;color: black;vertical-align:middle; border-radius:5px 5px 0px 0px;" type="submit" class="btn btn-secondary" name="Go_to_sys_ster"><span><b>System Sterilization</b></span></button>
+      {% if request.user.is_staff %}
+      <button style="background-color: #C2F261;padding: 1px 32px;color: black" type="submit" class="btn btn-secondary" name="Go_to_new_assay"><b>Create New Project</b></button>
+      {% endif %}	   
+       <button style="background-color: #F2F230;padding: 1px 32px;color: black" type="submit" class="btn btn-secondary" name="Go_to_existing_assay"><b>Existing Projects</b></button>
+      <button style="background-color: #1ec9ba;padding: 1px 32px;color: black" type="submit" class="btn btn-secondary" name="Go_to_Live_View"><b>Live Camera Preview</b></button>
+    
+    </form>
+    
+
+
+  </div>
+	<div style="padding-top: 50px;">
+  <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+    <form method="post">
+      {% csrf_token %}
+	  <button style="background-color: #F2C94C;padding: 1px 50px;color: black" type="submit" class="btn btn-secondary mr-2" name="Go_to_Settings"><b>Settings</b></button>
+    <button style="background-color: #10CC76;padding: 1px 32px;color: black" type="submit" class="btn btn-secondary mr-2" name="Logoutfunction"><b>Logout</b></button>
+    {% if request.user.is_staff %}	  
+    <button style="background-color: #fff200;padding: 1px 32px;color: black" type="submit" class="btn btn-secondary mr-2" name="Logoutfunction"><b>Create New User</b></button>
+    {% endif %}	 
+    
+    </div>
+    <!-- <button style="background-color: #ff0000;padding: 1px 32px;color: black" type="button" class="btn btn-secondary"  id="myBtn2" ><b>Shutdown</b></button> -->
+  </form>
+</div>
+</form>
+</div>
+
+
+
+
+      <!-- Modal content -->
+      <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Create New Assay</h2>
+            <span class="close">&times;</span>
+
+          </div>
+          <div class="modal-body">
+
+            <h2 style="padding: 1px 32px;">Import Excel or Manual Entry?&nbsp;</h2>
+            <div class="row">
+              <div class="col-xl-6">
+      
+ 
+              </div>
+              <div class="col-xl-6">
+
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xl-6">
+
+
+              </div>
+              <div class="col-xl-6">
+ 
+
+              </div>
+            </div>
+
+
+
+
+          </div>
+          <div class="modal-footer">
+            <form method ="post">
+              {% csrf_token %}
+            <button style="background-color: #8EF1FF;padding: 1px 32px;color: black" type="submit" class="btn btn-secondary" name="Go_to_new_assayimport">Excel</button>
+            <button  style="background-color: #00eeff;padding: 1px 32px;color: black"  class="btn btn-secondary"  name="Go_to_new_assay">Manual Entry</button>
+
+          </form>
+          </div>
+        </div>
+      
+      </div>
+
+
+      
+            <!-- Modal content -->
+      
+            <div id="myModal2" class="modal2">
+      
+      
+              <!-- Modal content -->
+      
+              <div class="modal-content">
+      
+                <div class="modal-header">
+      
+                  <h2>System Shutdown</h2>
+      
+                  <span class="close2">&times;</span>
+      
+      
+                </div>
+      
+                <div class="modal-body" >
+      
+                  <p>System will auto shutdown when video processing is complete.</p>
+      
+                  <p>Please do not unplug system.</p>
+      
+                  <p>Click <b>OK</b> to confirm.</p>
+      
+      
+                  <div class="row">
+                    <div class="col-xl-6">
+
+                    </div>
+      
+                    <div class="col-xl-6">
+      
+                    </div>
+      
+                  </div>
+      
+                  <div class="row">
+      
+                    <div class="col-xl-6">
+      
+                    </div>
+      
+                    <div class="col-xl-6">
+      
+                    </div>
+      
+                  </div>
+      
+                </div>
+      
+                <div class="modal-footer">
+                  <form method ="post">
+                    {% csrf_token %}
+                  <button style="background-color: #8EF1FF;padding: 1px 32px;color: black" type="submit" class="btn btn-secondary" name="System_Shutdown">OK</button>
+      
+                  <button  style="background-color: #00eeff;padding: 1px 32px;color: black"  class="btn btn-secondary"  name="run_script">Cancel</button>
+                  </form>
+                </div>
+      
+              </div>
+      
+            </div>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</div>
+</div>
+<!-- Include all compiled plugins (below), or include individual files as needed --> 
+ 
+<script src="{% static 'js/popper.min.js' %}"></script> 
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap-4.4.1.js' %}"></script>
+<script>
+  // Get the modal
+  var modal = document.getElementById("myModal");
+  
+  // Get the button that opens the modal
+  var btn = document.getElementById("myBtn");
+  
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+  
+  // When the user clicks the button, open the modal 
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+  
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+  </script>
+
+<script>
+// Get the modal
+var modal2 = document.getElementById("myModal2");
+
+// Get the button that opens the modal
+var btn2 = document.getElementById("myBtn2");
+
+// Get the <span> element that closes the modal
+var span2 = document.getElementsByClassName("close2")[0];
+
+// When the user clicks the button, open the modal 
+btn2.onclick = function() {
+  modal2.style.display = "block";
+  StopPumps();
+}
+
+// When the user clicks on <span> (x), close the modal
+span2.onclick = function() {
+  modal2.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal2) {
+    modal2.style.display = "none";
+  }
+}
+</script>
+
+
+<script type="text/javascript">
+function StopPumps(){
+    console.log("running");
+    $.ajax({
+        url : "Pages/Stop_All_Pumps", // the endpoint
+        type : "GET", // http method
+
+        success : function(json) {
+            console.log("success"); // another sanity check
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+        }
+    });
+};
+</script>
+
+</body>
+</html>
+

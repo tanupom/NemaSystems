@@ -1,0 +1,742 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Running Assay</title>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap-4.4.1.css' %}" />
+</head>
+
+<style>
+  .title-right {
+    float: right;
+    font-size: 15px;
+  }
+
+  .absoluteCenter img {
+    float: left;
+    width: 125px;
+    height: 50px;
+    background: #555;
+  }
+
+  .absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0;
+    /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .column {
+    flex: 50%;
+  }
+
+  .modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+  }
+
+  /* Modal Content */
+  .modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+  }
+
+  /* Add Animation */
+  @-webkit-keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  @keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  /* The Close Button */
+  .close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .modal-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .modal-body {
+    padding: 2px 16px;
+  }
+
+  .modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .title-right {
+    float: right;
+    font-size: 15px;
+  }
+
+  .absoluteCenter img {
+    float: left;
+    width: 125px;
+    height: 50px;
+    background: #555;
+  }
+
+  .absoluteCenter {
+    /* Must manually set width/height */
+    width: 3840px;
+    height: 2160px;
+    /* The magic centering code */
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Aligns Vertically - Remove for Horizontal Only */
+    left: 0;
+    right: 0;
+    /* Aligns Horizontally - Remove for Vertical Only  */
+    /* Prevent div from overflowing main window */
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .column {
+    flex: 50%;
+  }
+
+  .form-switch {
+    display: inline-block;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .form-switch i {
+    position: relative;
+    display: inline-block;
+    margin-right: .5rem;
+    width: 46px;
+    height: 26px;
+    background-color: #e6e6e6;
+    border-radius: 23px;
+    vertical-align: text-bottom;
+    transition: all 0.3s linear;
+  }
+
+  .form-switch i::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 42px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 11px;
+    transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
+    transition: all 0.25s linear;
+  }
+
+  .form-switch i::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 11px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24);
+    transform: translate3d(2px, 2px, 0);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .form-switch:active i::after {
+    width: 28px;
+    transform: translate3d(2px, 2px, 0);
+  }
+
+  .form-switch:active input:checked+i::after {
+    transform: translate3d(16px, 2px, 0);
+  }
+
+  .form-switch input {
+    display: none;
+  }
+
+  .form-switch input:checked+i {
+    background-color: #4BD763;
+  }
+
+  .form-switch input:checked+i::before {
+    transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0);
+  }
+
+  .form-switch input:checked+i::after {
+    transform: translate3d(22px, 2px, 0);
+  }
+
+  .checkboxes {
+    text-align: center;
+  }
+
+  .checkboxes input {
+    margin: 0px 0px 0px 0px;
+  }
+
+  .checkboxes label {
+    margin: 0px 0px 0px 3px;
+  }
+</style>
+
+<body>
+  <div class="absoluteCenter">
+    <div class="text-center">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8cVID5LsDQ8pSjt14E2nAvIaVYbOUl6H2y84vp6-9yw&s" />
+
+      <h1 style="background-color: #F2F230;padding: 1px 32px;"><b>{{ headername }}</b>&nbsp; <span
+          style="float:right;font-size:50%;text-align: center; margin-top: 12px;"> {{ user }} </span></h1>
+      <div class="row">
+        <div class="col">
+          <label class="form-switch">
+            <h5><b>Chip {{ChipsData.Ch1}}</b></h5>
+            {% if CameraData.Camera1 == "true" %}
+            <span style="text-align: right; justify-content: right;"><input id="c1" checked type="checkbox"
+                onclick="StopPumpOne()">
+              <i></i>
+              On/Off
+            </span>
+            {% else %}
+            <span style="text-align: right; justify-content: right;"><input id="c1" type="checkbox"
+                onclick="StopPumpOne()">
+              <i></i>
+              On/Off
+            </span>
+            {% endif %}
+          </label>
+          <video src="http://192.168.1.67:8084" width=800 height=380 type="video/ogg" codecs="theora, vorbis" controls
+            autoplay muted>></video> <br>
+
+          <div class="checkboxes">
+            <span>
+              <input type="checkbox" id="Re1" name="Mow" value="Mow"> <label>Rewashed</label>
+              <input type="checkbox" id="Pr1" name="Weedeat" value="Weedeat"> <label>Progeny</label>
+              <input type="checkbox" id="De1" name="Edge" value="Edge"> <label>Debonded</label>
+              <input type="checkbox" id="Fin1" name="Other" value="Other"> <label>Finished</label>
+              <input type="text" id="Issues1" placeholder=" Enter issues here" name="fname"><br><br>
+            </span>
+          </div>
+
+
+
+        </div>
+        <div style="padding-top: 300px;" class="col-sm-1">
+          <h5 id="status">Washing</h5>
+          <progress id="demo" value="0" max="100"> 0% </progress>
+          <h4 id="timer">99:99:99</h4>
+        </div>
+        <div class="col">
+          <label class="form-switch">
+            <h5><b>Chip {{ChipsData.Ch2}}</b></h5>
+            {% if CameraData.Camera2 == "true" %}
+            <span style="text-align: right; justify-content: right;"><input id="c2" checked type="checkbox"
+                onclick="StopPumpTwo()">
+              <i></i>
+              On/Off
+            </span>
+            {% else %}
+            <span style="text-align: right; justify-content: right;"><input id="c2" type="checkbox"
+                onclick="StopPumpTwo()">
+              <i></i>
+              On/Off
+            </span>
+            {% endif %}
+          </label>
+          <video src="http://192.168.1.67:8085" width=800 height=380 controls autoplay muted>></video> <br>
+          <div class="checkboxes">
+            <span>
+              <input type="checkbox" id="Re2" name="Mow" value="Mow"> <label>Rewashed</label>
+              <input type="checkbox" id="Pr2" name="Weedeat" value="Weedeat"> <label>Progeny</label>
+              <input type="checkbox" id="De2" name="Edge" value="Edge"> <label>Debonded</label>
+              <input type="checkbox" id="Fin2" name="Other" value="Other"> <label>Finished</label>
+              <input type="text" id="Issues2" placeholder=" Enter issues here" name="fname"><br><br>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label class="form-switch">
+            <h5><b>Chip {{ChipsData.Ch3}}</b></h5>
+            {% if CameraData.Camera3 == "true" %}
+            <span style="text-align: right; justify-content: right;"><input id="c3" checked type="checkbox"
+                onclick="StopPumpThree()">
+              <i></i>
+              On/Off
+            </span>
+            {% else %}
+            <span style="text-align: right; justify-content: right;"><input id="c3" type="checkbox"
+                onclick="StopPumpThree()">
+              <i></i>
+              On/Off
+            </span>
+            {% endif %}
+          </label>
+          <video src="http://192.168.1.67:8086" width=800 height=380 controls autoplay muted></video> <br>
+          <div class="checkboxes">
+            <span>
+              <input type="checkbox" id="Re3" name="Mow" value="Mow"> <label>Rewashed</label>
+              <input type="checkbox" id="Pr3" name="Weedeat" value="Weedeat"> <label>Progeny</label>
+              <input type="checkbox" id="De3" name="Edge" value="Edge"> <label>Debonded</label>
+              <input type="checkbox" id="Fin3" name="Other" value="Other"> <label>Finished</label>
+              <input type="text" id="Issues3" placeholder=" Enter issues here" name="fname"><br><br>
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-1">
+        </div>
+        <div class="col">
+          <label class="form-switch">
+            <h5><b>Chip {{ChipsData.Ch4}}</b></h5>
+            {% if CameraData.Camera4 == "true" %}
+            <span style="text-align: right; justify-content: right;"><input id="c4" checked type="checkbox"
+                onclick="StopPumpFour()">
+              <i></i>
+              On/Off
+            </span>
+            {% else %}
+            <span style="text-align: right; justify-content: right;"><input id="c4" type="checkbox"
+                onclick="StopPumpFour()">
+              <i></i>
+              On/Off
+            </span>
+            {% endif %}
+          </label>
+
+          <video src="http://192.168.1.67:8087" width=800 height=380 controls autoplay muted></video> <br>
+          <div class="checkboxes">
+            <span>
+              <input type="checkbox" id="Re4" name="Mow" value="Mow"> <label>Rewashed</label>
+              <input type="checkbox" id="Pr4" name="Weedeat" value="Weedeat"> <label>Progeny</label>
+              <input type="checkbox" id="De4" name="Edge" value="Edge"> <label>Debonded</label>
+              <input type="checkbox" id="Fin4" name="Other" value="Other"> <label>Finished</label>
+              <input type="text" id="Issues4" placeholder=" Enter issues here" name="fname"><br><br>
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+      <form id="myForm" name="" method="post">
+
+        {% csrf_token %}
+
+        <!-- Modal content -->
+
+        <div id="myModal" class="modal">
+
+          <!-- Modal content -->
+
+          <div class="modal-content">
+
+            <div class="modal-header" style="text-align: center;">
+
+              <h2><b>Select Videos to Upload</b></h2>
+
+              <!-- <span class="close">&times;</span> -->
+
+            </div>
+
+            <div class="modal-body">
+
+
+              <div class="row">
+
+                <div class="col-xl-6">
+
+                  <label class="form-switch">
+                    <input type="checkbox" id=movie1 name='movie1' checked>
+                    <i></i>
+                    <b>Chip {{ChipsData.Ch1}}</b>
+                  </label>
+                </div>
+                <div class="col-xl-6">
+                  <label class="form-switch">
+                    <input type="checkbox" id=movie2 name='movie2' checked>
+                    <i></i>
+                    <b>Chip {{ChipsData.Ch2}}</b>
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6">
+                  <label class="form-switch">
+                    <input type="checkbox" id=movie3 name='movie3' checked>
+
+                    <i></i>
+                    <b>Chip {{ChipsData.Ch3}}</b>
+                  </label>
+
+                </div>
+                <div class="col-xl-6">
+                  <label class="form-switch">
+                    <input type="checkbox" id=movie4 name='movie4' checked>
+                    <i></i>
+                    <b>Chip {{ChipsData.Ch4}}</b>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button style="background-color: #8EF1FF;padding: 1px 32px;color: black" type="submit"
+                class="btn btn-secondary" name="movetoggledvideos"><b>Confirm</b></button>
+            </div>
+          </div>
+        </div>
+        <div class="btn-toolbar;text-center" role="toolbar">
+          <div class="btn-group mr-2" role="group">
+            <button style="background-color: #FF6B6B;padding: 1px 32px;color: black" type="submit"
+              class="btn btn-secondary" name="StopRecording"><b>End Cycle</b></button>
+      </form>
+    </div>
+  </div>
+  </div>
+  </div>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap-4.4.1.js' %}"></script>
+  <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+  <script>
+    function GetAlllllFields() {
+      console.log("BoxesSubmit");
+      var Rewashed = document.getElementById("Re1").checked;
+      var Progeny = document.getElementById("Pr1").checked;
+      var Debonded = document.getElementById("De1").checked;
+      var Finished = document.getElementById("Fin1").checked;
+      var Issues1 = document.getElementById("Issues1").value;
+
+      var Rewashed2 = document.getElementById("Re2").checked;
+      var Progeny2 = document.getElementById("Pr2").checked;
+      var Debonded2 = document.getElementById("De2").checked;
+      var Finished2 = document.getElementById("Fin2").checked;
+      var Issues2 = document.getElementById("Issues2").value;
+
+      var Rewashed3 = document.getElementById("Re3").checked;
+      var Progeny3 = document.getElementById("Pr3").checked;
+      var Debonded3 = document.getElementById("De3").checked;
+      var Finished3 = document.getElementById("Fin3").checked;
+      var Issues3 = document.getElementById("Issues3").value;
+
+      var Rewashed4 = document.getElementById("Re4").checked;
+      var Progeny4 = document.getElementById("Pr4").checked;
+      var Debonded4 = document.getElementById("De4").checked;
+      var Finished4 = document.getElementById("Fin4").checked;
+      var Issues4 = document.getElementById("Issues4").value;
+
+      $.ajax({
+        url: 'StopPumpOne/',
+        type: 'post',
+        data: {
+          csrfmiddlewaretoken: window.CSRF_TOKEN,
+
+          "Rewashed": Rewashed,
+          "Progeny": Progeny,
+          "Debonded": Debonded,
+          "Finished": Finished,
+          "Issues1": Issues1,
+
+          "Rewashed2": Rewashed2,
+          "Progeny2": Progeny2,
+          "Debonded2": Debonded2,
+          "Finished2": Finished2,
+          "Issues2": Issues2,
+
+          "Rewashed3": Rewashed3,
+          "Progeny3": Progeny3,
+          "Debonded3": Debonded2,
+          "Finished3": Finished3,
+          "Issues3": Issues3,
+
+          "Rewashed4": Rewashed4,
+          "Progeny4": Progeny4,
+          "Debonded4": Debonded4,
+          "Finished4": Finished4,
+          "Issues4": Issues4
+        },
+        success: function (data) {
+
+        },
+        failure: function (data) {
+          alert('Encountered an error');
+        }
+      });
+
+    };
+    // Set the date we're counting down to
+    var timeRemaining = "{{ timeuser }}";
+    var WashTime = "{{ WashTime }}";
+    timeRemaining = timeRemaining - 10;
+    var startTime = "{{ timeuser }}";
+    var modal = document.getElementById("myModal");
+    // Update the count down every 1 second
+    var x = setInterval(function () {
+
+      timeRemaining = timeRemaining - 1;
+
+      console.log(timeRemaining);
+
+      var h = Math.floor(timeRemaining / 3600);
+      var m = Math.floor(timeRemaining % 3600 / 60);
+      var s = Math.floor(timeRemaining % 3600 % 60);
+
+      document.getElementById("demo").value = Math.floor(100 - ((timeRemaining / startTime) * 100));
+      document.getElementById("timer").innerHTML = h.toString() + ":" + m.toString() + ":" + s.toString();
+      console.log(timeRemaining / startTime);
+      if (timeRemaining <= 0) {
+        modal.style.display = "block";
+        GetAlllllFields();
+        clearInterval(x);
+        document.getElementById("demo").innerHTML = "Imaging Complete";
+      } else if (timeRemaining < startTime - WashTime) {
+        document.getElementById("status").innerHTML = "Check For Progeny";
+      } else {
+        document.getElementById("status").innerHTML = "Washing";
+      }
+      console.log("Wash Time:" + WashTime.toString());
+    }, 1000);
+  </script>
+  <script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function () {
+      modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+
+  <script type="text/javascript">
+    function StopPumpOne() {
+      console.log("running");
+      var toggled = document.getElementById("c1");
+      if (toggled.checked == false) {
+        $.ajax({
+          url: 'StopPumpOne/',
+          type: 'post',
+          data: { csrfmiddlewaretoken: window.CSRF_TOKEN, StopOne: "1" },
+          success: function (data) {
+            //alert(data);
+          },
+          failure: function (data) {
+            alert('Encountered an error');
+          }
+        });
+      } else {
+        $.ajax({
+          url: 'StopPumpOne/',
+          type: 'post',
+          data: { csrfmiddlewaretoken: window.CSRF_TOKEN, StartOne: "1" },
+          success: function (data) {
+            //alert(data);
+          },
+          failure: function (data) {
+            alert('Encountered an error');
+          }
+        });
+      }
+
+    };
+    function StopPumpTwo() {
+      console.log("running");
+      var toggled = document.getElementById("c2");
+      if (toggled.checked == false) {
+        $.ajax({
+          url: 'StopPumpOne/',
+          type: 'post',
+          data: { csrfmiddlewaretoken: window.CSRF_TOKEN, StopTwo: "2" },
+          success: function (data) {
+            //alert(data);
+          },
+          failure: function (data) {
+            alert('Encountered an error');
+          }
+        });
+      } else {
+        $.ajax({
+          url: 'StopPumpOne/',
+          type: 'post',
+          data: { csrfmiddlewaretoken: window.CSRF_TOKEN, StartTwo: "2" },
+          success: function (data) {
+            //alert(data);
+          },
+          failure: function (data) {
+            alert('Encountered an error');
+          }
+        });
+      }
+
+    };
+    function StopPumpThree() {
+      console.log("running");
+      var toggled = document.getElementById("c3");
+      if (toggled.checked == false) {
+        $.ajax({
+          url: 'StopPumpOne/',
+          type: 'post',
+          data: { csrfmiddlewaretoken: window.CSRF_TOKEN, StopThree: "3" },
+          success: function (data) {
+            //alert(data);
+          },
+          failure: function (data) {
+            alert('Encountered an error');
+          }
+        });
+      } else {
+        $.ajax({
+          url: 'StopPumpOne/',
+          type: 'post',
+          data: { csrfmiddlewaretoken: window.CSRF_TOKEN, StartThree: "3" },
+          success: function (data) {
+            //alert(data);
+          },
+          failure: function (data) {
+            alert('Encountered an error');
+          }
+        });
+      }
+
+    };
+    function StopPumpFour() {
+      console.log("running");
+      var toggled = document.getElementById("c4");
+      if (toggled.checked == false) {
+        $.ajax({
+          url: 'StopPumpOne/',
+          type: 'post',
+          data: { csrfmiddlewaretoken: window.CSRF_TOKEN, StopFour: "4" },
+          success: function (data) {
+            //alert(data);
+          },
+          failure: function (data) {
+            alert('Encountered an error');
+          }
+        });
+      } else {
+        $.ajax({
+          url: 'StopPumpOne/',
+          type: 'post',
+          data: { csrfmiddlewaretoken: window.CSRF_TOKEN, StartFour: "4" },
+          success: function (data) {
+            //alert(data);
+          },
+          failure: function (data) {
+            alert('Encountered an error');
+          }
+        });
+      }
+
+    };
+  </script>
+
+
+
+</body>
+
+</html>
