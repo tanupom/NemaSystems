@@ -706,107 +706,11 @@
           <video src="http://192.168.1.67:8080" width=800 height=380 type="video/ogg" codecs="theora, vorbis" controls
             autoplay muted>></video>
         </div>
-        <div class="col">
-          <div style="padding-bottom: 1px">
-            <label class="form-switch">
 
-              <input id="c2" type="checkbox" checked>
-              <i></i>
-              <label style="margin-top: 15px;"><b>On/Off</b></label>
-
-              <span style="float:right;font-size:50%;text-align: center; margin-left: 250px;">
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <label class="input-group-text" for="ChipID2">Chip ID</label>
-                  </div>
-                  <div class="text-center">
-                    <form method="post" action="http://192.168.1.67:8000/Infinity2.0/" id="myform">
-                      {% csrf_token %}
-                      <select class="custom-select" name="sortby" id="ChipID2" required onchange="submitForm();">
-                        <option value="" disabled selected hidden>Please Choose...</option>
-                        {% for i in ChipIds %}
-                        <option value="{{ i }}">{{ i }} </option>
-                        {% endfor %}
-                      </select>
-                    </form>
-                  </div>
-                </div>
-
-              </span>
-            </label>
-          </div>
-          <video src="http://192.168.1.67:8081" width=800 height=380 type="video/ogg" codecs="theora, vorbis" controls
-            autoplay muted>></video>
-        </div>
       </div>
-      <button style="background-color: #8CCE43;padding: 1px 32px;color: black" type="button" class="btn btn-secondary"
-        name="tcameras" id="myBtn2"><b>Start Cycle</b></button>
-      <div class="row">
-        <div class="col">
-          <div style="padding-bottom: 1px">
-            <label class="form-switch">
 
-              <input id="c3" type="checkbox" checked>
-              <i></i>
-              <label style="margin-top: 15px;"><b>On/Off</b></label>
+      
 
-              <span style="float:right;font-size:50%;text-align: center; margin-left: 250px;">
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <label class="input-group-text" for="ChipID3">Chip ID</label>
-                  </div>
-                  <div class="text-center">
-                    <form method="post" action="http://192.168.1.67:8000/Infinity2.0/" id="myform">
-                      {% csrf_token %}
-                      <select class="custom-select" name="sortby" id="ChipID3" required onchange="submitForm();">
-                        <option value="" disabled selected hidden>Please Choose...</option>
-                        {% for i in ChipIds %}
-                        <option value="{{ i }}">{{ i }} </option>
-                        {% endfor %}
-                      </select>
-                    </form>
-                  </div>
-                </div>
-
-              </span>
-            </label>
-          </div>
-          <video src="http://192.168.1.67:8082" width=800 height=380 type="video/ogg" codecs="theora, vorbis" controls
-            autoplay muted>></video>
-        </div>
-        <div class="col">
-          <div style="padding-bottom: 1px">
-            <label class="form-switch">
-
-              <input id="c4" type="checkbox" checked>
-              <i></i>
-              <label style="margin-top: 15px;"><b>On/Off</b></label>
-
-              <span style="float:right;font-size:50%;text-align: center; margin-left: 250px;">
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <label class="input-group-text" for="ChipID4">Chip ID</label>
-                  </div>
-                  <div class="text-center">
-                    <form method="post" action="http://192.168.1.67:8000/Infinity2.0/" id="myform">
-                      {% csrf_token %}
-                      <select class="custom-select" name="sortby" id="ChipID4" required onchange="submitForm();">
-                        <option value="" disabled selected hidden>Please Choose...</option>
-                        {% for i in ChipIds %}
-                        <option value="{{ i }}">{{ i }} </option>
-                        {% endfor %}
-                      </select>
-                    </form>
-                  </div>
-                </div>
-
-              </span>
-            </label>
-          </div>
-          <video src="http://192.168.1.67:8083" width=800 height=380 type="video/ogg" codecs="theora, vorbis" controls
-            autoplay muted>></video>
-        </div>
-      </div>
       <form method="post">
         {% csrf_token %}
         <!-- Modal content -->
@@ -830,7 +734,8 @@
         </div>
         <div class="btn-toolbar;text-center" role="toolbar">
           <div class="btn-group mr-2" role="group">
-
+            <button style="background-color: #8CCE43;padding: 1px 32px;color: black" type="button" class="btn btn-secondary"
+            name="tcameras" id="myBtn2"><b>Start Cycle</b></button> <br>
             <button style="background-color: #FF6B6B;padding: 1px 32px;color: black" type="button"
               class="btn btn-secondary" name="run_script_cam" id="myBtn" title="Link Title"><b>End Session</b></button>
       </form>

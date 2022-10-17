@@ -274,8 +274,6 @@
 
       <h1 style="background-color: #F2F230;padding: 1px 32px;"><b>{{ headername }}</b>&nbsp; <span
           style="float:right;font-size:50%;text-align: center; margin-top: 12px;"> {{ user }} </span></h1>
-      <div class="row">
-        <div class="col">
           <label class="form-switch">
             <h5><b>Chip {{ChipsData.Ch1}}</b></h5>
             {% if CameraData.Camera1 == "true" %}
@@ -291,9 +289,9 @@
               On/Off
             </span>
             {% endif %}
-          </label>
+          </label> <br>
           <video src="http://192.168.1.67:8084" width=800 height=380 type="video/ogg" codecs="theora, vorbis" controls
-            autoplay muted>></video> <br>
+            autoplay muted></video> <br>
 
           <div class="checkboxes">
             <span>
@@ -307,102 +305,12 @@
 
 
 
-        </div>
         <div style="padding-top: 300px;" class="col-sm-1">
           <h5 id="status">Washing</h5>
           <progress id="demo" value="0" max="100"> 0% </progress>
           <h4 id="timer">99:99:99</h4>
         </div>
-        <div class="col">
-          <label class="form-switch">
-            <h5><b>Chip {{ChipsData.Ch2}}</b></h5>
-            {% if CameraData.Camera2 == "true" %}
-            <span style="text-align: right; justify-content: right;"><input id="c2" checked type="checkbox"
-                onclick="StopPumpTwo()">
-              <i></i>
-              On/Off
-            </span>
-            {% else %}
-            <span style="text-align: right; justify-content: right;"><input id="c2" type="checkbox"
-                onclick="StopPumpTwo()">
-              <i></i>
-              On/Off
-            </span>
-            {% endif %}
-          </label>
-          <video src="http://192.168.1.67:8085" width=800 height=380 controls autoplay muted>></video> <br>
-          <div class="checkboxes">
-            <span>
-              <input type="checkbox" id="Re2" name="Mow" value="Mow"> <label>Rewashed</label>
-              <input type="checkbox" id="Pr2" name="Weedeat" value="Weedeat"> <label>Progeny</label>
-              <input type="checkbox" id="De2" name="Edge" value="Edge"> <label>Debonded</label>
-              <input type="checkbox" id="Fin2" name="Other" value="Other"> <label>Finished</label>
-              <input type="text" id="Issues2" placeholder=" Enter issues here" name="fname"><br><br>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <label class="form-switch">
-            <h5><b>Chip {{ChipsData.Ch3}}</b></h5>
-            {% if CameraData.Camera3 == "true" %}
-            <span style="text-align: right; justify-content: right;"><input id="c3" checked type="checkbox"
-                onclick="StopPumpThree()">
-              <i></i>
-              On/Off
-            </span>
-            {% else %}
-            <span style="text-align: right; justify-content: right;"><input id="c3" type="checkbox"
-                onclick="StopPumpThree()">
-              <i></i>
-              On/Off
-            </span>
-            {% endif %}
-          </label>
-          <video src="http://192.168.1.67:8086" width=800 height=380 controls autoplay muted></video> <br>
-          <div class="checkboxes">
-            <span>
-              <input type="checkbox" id="Re3" name="Mow" value="Mow"> <label>Rewashed</label>
-              <input type="checkbox" id="Pr3" name="Weedeat" value="Weedeat"> <label>Progeny</label>
-              <input type="checkbox" id="De3" name="Edge" value="Edge"> <label>Debonded</label>
-              <input type="checkbox" id="Fin3" name="Other" value="Other"> <label>Finished</label>
-              <input type="text" id="Issues3" placeholder=" Enter issues here" name="fname"><br><br>
-            </span>
-          </div>
-        </div>
-        <div class="col-sm-1">
-        </div>
-        <div class="col">
-          <label class="form-switch">
-            <h5><b>Chip {{ChipsData.Ch4}}</b></h5>
-            {% if CameraData.Camera4 == "true" %}
-            <span style="text-align: right; justify-content: right;"><input id="c4" checked type="checkbox"
-                onclick="StopPumpFour()">
-              <i></i>
-              On/Off
-            </span>
-            {% else %}
-            <span style="text-align: right; justify-content: right;"><input id="c4" type="checkbox"
-                onclick="StopPumpFour()">
-              <i></i>
-              On/Off
-            </span>
-            {% endif %}
-          </label>
 
-          <video src="http://192.168.1.67:8087" width=800 height=380 controls autoplay muted></video> <br>
-          <div class="checkboxes">
-            <span>
-              <input type="checkbox" id="Re4" name="Mow" value="Mow"> <label>Rewashed</label>
-              <input type="checkbox" id="Pr4" name="Weedeat" value="Weedeat"> <label>Progeny</label>
-              <input type="checkbox" id="De4" name="Edge" value="Edge"> <label>Debonded</label>
-              <input type="checkbox" id="Fin4" name="Other" value="Other"> <label>Finished</label>
-              <input type="text" id="Issues4" placeholder=" Enter issues here" name="fname"><br><br>
-            </span>
-          </div>
-        </div>
-      </div>
 
 
       <form id="myForm" name="" method="post">
@@ -428,42 +336,13 @@
             <div class="modal-body">
 
 
-              <div class="row">
-
-                <div class="col-xl-6">
-
                   <label class="form-switch">
                     <input type="checkbox" id=movie1 name='movie1' checked>
                     <i></i>
                     <b>Chip {{ChipsData.Ch1}}</b>
                   </label>
-                </div>
                 <div class="col-xl-6">
-                  <label class="form-switch">
-                    <input type="checkbox" id=movie2 name='movie2' checked>
-                    <i></i>
-                    <b>Chip {{ChipsData.Ch2}}</b>
-                  </label>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-xl-6">
-                  <label class="form-switch">
-                    <input type="checkbox" id=movie3 name='movie3' checked>
-
-                    <i></i>
-                    <b>Chip {{ChipsData.Ch3}}</b>
-                  </label>
-
-                </div>
-                <div class="col-xl-6">
-                  <label class="form-switch">
-                    <input type="checkbox" id=movie4 name='movie4' checked>
-                    <i></i>
-                    <b>Chip {{ChipsData.Ch4}}</b>
-                  </label>
-                </div>
-              </div>
             </div>
             <div class="modal-footer">
               <button style="background-color: #8EF1FF;padding: 1px 32px;color: black" type="submit"
